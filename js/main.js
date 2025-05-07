@@ -31,8 +31,4 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.persisted) {
     }
   });
-
-  document.querySelector("svg").addEventListener("click", () => {
-    window.location.href = "/"; // Navigate to the homepage
-  });
 });
