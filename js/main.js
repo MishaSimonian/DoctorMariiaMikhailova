@@ -14,17 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  const links = document.querySelectorAll("a");
-  links.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      const href = link.getAttribute("href");
-      setTimeout(() => {
-        window.location.href = href;
-      }, 1000); // Delay matches animation duration
-    });
-  });
-
   window.addEventListener("popstate", () => {});
 
   window.addEventListener("pageshow", (event) => {
