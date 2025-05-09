@@ -125,4 +125,65 @@ imgEl.addEventListener("pointercancel", () => {
   resetTranslate();
 });
 
+// Touch events fallback for mobile browsers that do not support pointer events
+let touchStartX = null;
+let touchDragging = false;
+let touchCurrentTranslate = 0;
+
+imgEl.addEventListener(
+  "touchstart",
+  (e) => {
+    if (e.touches.length !== 1) return;
+    touchDragging = true;
+    touchStartX = e.touches[0].clientX;
+    touchCurrentTranslate = 0;
+    imgEl.style.transition = "none";
+  },
+  { passive: true }
+);
+
+imgEl.addEventListener(
+  "touchmove",
+  (e) => {
+    if (!touchDragging || touchStartX === null) return;
+    const moveX = e.touches[0].clientX;
+    touchCurrentTranslate = moveX - touchStartX;
+    setTranslate(touchCurrentTranslate);
+    e.preventDefault();
+  },
+  { passive: false }
+);
+
+imgEl.addEventListener("touchend", (e) => {
+  if (!touchDragging || touchStartX === null) return;
+  touchDragging = false;
+  imgEl.style.transition = "transform 0.3s";
+  if (touchCurrentTranslate > 60 && currentIndex > 0) {
+    imgEl.style.transform = "translateX(100vw)";
+    setTimeout(() => {
+      currentIndex--;
+      updateGallery();
+      imgEl.style.transition = "none";
+      imgEl.style.transform = "translateX(0)";
+      fadeInImage();
+    }, 300);
+  } else if (
+    touchCurrentTranslate < -60 &&
+    currentIndex < galleryImages.length - 1
+  ) {
+    imgEl.style.transform = "translateX(-100vw)";
+    setTimeout(() => {
+      currentIndex++;
+      updateGallery();
+      imgEl.style.transition = "none";
+      imgEl.style.transform = "translateX(0)";
+      fadeInImage();
+    }, 300);
+  } else {
+    resetTranslate();
+  }
+  touchStartX = null;
+  touchCurrentTranslate = 0;
+});
+
 updateGallery();
