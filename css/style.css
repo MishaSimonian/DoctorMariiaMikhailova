@@ -680,8 +680,7 @@ footer {
   object-fit: contain;
   transition: box-shadow 0.3s, transform 0.3s, opacity 0.4s;
   opacity: 1;
-  will-change: transform;
-  /* Добавлено для плавного свайпа */
+  will-change: transform, opacity;
 }
 
 .single-gallery-img:active {

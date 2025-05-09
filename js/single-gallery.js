@@ -60,74 +60,22 @@ function resetTranslate(withTransition = true) {
   }, 300);
 }
 
-// Touch events (mobile)
-imgEl.addEventListener("touchstart", (e) => {
-  if (e.touches.length !== 1) return;
-  dragging = true;
-  startX = e.touches[0].clientX;
-  currentTranslate = 0;
-  imgEl.style.transition = "none";
-});
+function fadeInImage() {
+  imgEl.style.opacity = "0";
+  imgEl.style.transition = "opacity 0.4s";
+  // Нужно дождаться применения opacity=0, затем плавно показать
+  requestAnimationFrame(() => {
+    imgEl.style.opacity = "1";
+  });
+}
 
-imgEl.addEventListener(
-  "touchmove",
-  (e) => {
-    if (!dragging || startX === null) return;
-    const moveX = e.touches[0].clientX;
-    currentTranslate = moveX - startX;
-    setTranslate(currentTranslate);
-    e.preventDefault();
-  },
-  { passive: false }
-);
-
-imgEl.addEventListener("touchend", (e) => {
-  if (!dragging || startX === null) return;
-  dragging = false;
-  imgEl.style.transition = "transform 0.3s";
-  if (currentTranslate > 60 && currentIndex > 0) {
-    // свайп вправо, новое фото появляется слева
-    imgEl.style.transform = "translateX(100vw)";
-    setTimeout(() => {
-      currentIndex--;
-      updateGallery();
-      imgEl.style.transition = "none";
-      imgEl.style.transform = "translateX(-100vw)";
-      // заставляем браузер применить transform перед анимацией
-      requestAnimationFrame(() => {
-        imgEl.style.transition = "transform 0.3s";
-        imgEl.style.transform = "translateX(0)";
-      });
-    }, 300);
-  } else if (
-    currentTranslate < -60 &&
-    currentIndex < galleryImages.length - 1
-  ) {
-    // свайп влево, новое фото появляется справа
-    imgEl.style.transform = "translateX(-100vw)";
-    setTimeout(() => {
-      currentIndex++;
-      updateGallery();
-      imgEl.style.transition = "none";
-      imgEl.style.transform = "translateX(100vw)";
-      requestAnimationFrame(() => {
-        imgEl.style.transition = "transform 0.3s";
-        imgEl.style.transform = "translateX(0)";
-      });
-    }, 300);
-  } else {
-    resetTranslate();
-  }
-  startX = null;
-  currentTranslate = 0;
-});
-
-// Pointer events (for touchscreens and hybrid devices)
+// Используем только pointer события для свайпа
 imgEl.addEventListener("pointerdown", (e) => {
   if (e.pointerType !== "touch") return;
   dragging = true;
   startX = e.clientX;
   currentTranslate = 0;
+  imgEl.setPointerCapture(e.pointerId);
   imgEl.style.transition = "none";
 });
 
@@ -140,33 +88,30 @@ imgEl.addEventListener("pointermove", (e) => {
 imgEl.addEventListener("pointerup", (e) => {
   if (!dragging || startX === null || e.pointerType !== "touch") return;
   dragging = false;
+  imgEl.releasePointerCapture(e.pointerId);
   imgEl.style.transition = "transform 0.3s";
   if (currentTranslate > 60 && currentIndex > 0) {
+    // свайп вправо, новое фото появляется из центра (без смещения)
     imgEl.style.transform = "translateX(100vw)";
     setTimeout(() => {
       currentIndex--;
       updateGallery();
       imgEl.style.transition = "none";
-      imgEl.style.transform = "translateX(-100vw)";
-      requestAnimationFrame(() => {
-        imgEl.style.transition = "transform 0.3s";
-        imgEl.style.transform = "translateX(0)";
-      });
+      imgEl.style.transform = "translateX(0)"; // появляется из центра
+      fadeInImage();
     }, 300);
   } else if (
     currentTranslate < -60 &&
     currentIndex < galleryImages.length - 1
   ) {
+    // свайп влево, новое фото появляется из центра (без смещения)
     imgEl.style.transform = "translateX(-100vw)";
     setTimeout(() => {
       currentIndex++;
       updateGallery();
       imgEl.style.transition = "none";
-      imgEl.style.transform = "translateX(100vw)";
-      requestAnimationFrame(() => {
-        imgEl.style.transition = "transform 0.3s";
-        imgEl.style.transform = "translateX(0)";
-      });
+      imgEl.style.transform = "translateX(0)"; // появляется из центра
+      fadeInImage();
     }, 300);
   } else {
     resetTranslate();
