@@ -13,6 +13,9 @@ const leftBtn = document.querySelector(".gallery-arrow-left");
 const rightBtn = document.querySelector(".gallery-arrow-right");
 const indicator = document.getElementById("single-gallery-indicator");
 
+/**
+ * Update gallery image, alt text, indicator, and arrow button states.
+ */
 function updateGallery() {
   imgEl.src = galleryImages[currentIndex];
   imgEl.alt = `Work example ${currentIndex + 1}`;
@@ -35,41 +38,40 @@ rightBtn.addEventListener("click", () => {
   }
 });
 
-// Swipe support for mobile and touch devices
 let startX = null;
-let isPointerDown = false;
-let pointerStartX = null;
-
 let currentTranslate = 0;
 let dragging = false;
-let animationFrameId = null;
 
+/**
+ * Set horizontal translation of the image element.
+ */
 function setTranslate(x) {
   imgEl.style.transform = `translateX(${x}px)`;
 }
 
+/**
+ * Reset image translation to center with optional transition.
+ */
 function resetTranslate(withTransition = true) {
-  if (withTransition) {
-    imgEl.style.transition = "transform 0.3s";
-  } else {
-    imgEl.style.transition = "none";
-  }
+  imgEl.style.transition = withTransition ? "transform 0.3s" : "none";
   imgEl.style.transform = "translateX(0)";
   setTimeout(() => {
     imgEl.style.transition = "";
   }, 300);
 }
 
+/**
+ * Fade in the image smoothly by animating opacity.
+ */
 function fadeInImage() {
   imgEl.style.opacity = "0";
   imgEl.style.transition = "opacity 0.4s";
-  // Нужно дождаться применения opacity=0, затем плавно показать
   requestAnimationFrame(() => {
     imgEl.style.opacity = "1";
   });
 }
 
-// Используем только pointer события для свайпа
+// Pointer events for swipe/drag navigation on touch devices
 imgEl.addEventListener("pointerdown", (e) => {
   if (e.pointerType !== "touch") return;
   dragging = true;
@@ -91,26 +93,24 @@ imgEl.addEventListener("pointerup", (e) => {
   imgEl.releasePointerCapture(e.pointerId);
   imgEl.style.transition = "transform 0.3s";
   if (currentTranslate > 60 && currentIndex > 0) {
-    // свайп вправо, новое фото появляется из центра (без смещения)
     imgEl.style.transform = "translateX(100vw)";
     setTimeout(() => {
       currentIndex--;
       updateGallery();
       imgEl.style.transition = "none";
-      imgEl.style.transform = "translateX(0)"; // появляется из центра
+      imgEl.style.transform = "translateX(0)";
       fadeInImage();
     }, 300);
   } else if (
     currentTranslate < -60 &&
     currentIndex < galleryImages.length - 1
   ) {
-    // свайп влево, новое фото появляется из центра (без смещения)
     imgEl.style.transform = "translateX(-100vw)";
     setTimeout(() => {
       currentIndex++;
       updateGallery();
       imgEl.style.transition = "none";
-      imgEl.style.transform = "translateX(0)"; // появляется из центра
+      imgEl.style.transform = "translateX(0)";
       fadeInImage();
     }, 300);
   } else {

@@ -1,43 +1,34 @@
+/* Main body styles */
 body {
   font-family: "Montserrat", sans-serif;
   margin: 0;
-  background-color: #eae4d3; /* Дорогой бежевый */
-  color: #3e4c3a; /* Дорогой оливковый для текста */
+  background-color: #eae4d3;
+  color: #3e4c3a;
   line-height: 1.7;
   scroll-behavior: smooth;
-  /* Красивый градиент */
-  background: linear-gradient(
-    135deg,
-    #eae4d3 0%,
-    #d6d1c4 50%,
-    #b8b29a 100%
-  ); /* Градиент с дорогими оттенками */
+  background: linear-gradient(135deg, #eae4d3 0%, #d6d1c4 50%, #b8b29a 100%);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Фиксированный фон */
+  background-attachment: fixed;
 }
 
+/* Main container */
 .container {
-  max-width: 480px; /* Ширина как у телефона */
-  margin: 50px auto; /* Центрирование по вертикали и горизонтали */
+  max-width: 480px;
+  margin: 50px auto;
   padding: 30px;
-  background-color: rgba(
-    234,
-    228,
-    211,
-    0.9
-  ); /* Полупрозрачный дорогой бежевый */
+  background-color: rgba(234, 228, 211, 0.9);
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  text-align: center; /* Центрируем содержимое контейнера */
-  animation: fadeIn 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление контейнера */
-  color: #3e4c3a; /* Дорогой оливковый */
+  text-align: center;
+  animation: fadeIn 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  color: #3e4c3a;
 }
 
-/* Шапка (информация о враче) */
+/* Header (doctor info) */
 header {
   margin-bottom: 30px;
-  animation: fadeInDown 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление шапки сверху */
+  animation: fadeInDown 1s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
 header img {
@@ -46,34 +37,34 @@ header img {
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 20px;
-  animation: zoomIn 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное увеличение аватара */
+  animation: zoomIn 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
 header h1 {
   font-size: 1.8em;
-  color: #4a5a3f; /* Дорогой оливковый */
+  color: #4a5a3f;
   margin-bottom: 5px;
   font-weight: 600;
   opacity: 0;
   transform: translateY(-20px);
-  animation: slideInDownText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление заголовка */
+  animation: slideInDownText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   animation-delay: 0.5s;
-  content: "MDDR "; /* Добавление титула перед именем врача */
-  margin-top: -20px; /* Поднял имя на 20px выше */
-  text-align: center; /* Центрирование текста */
+  content: "MDDR ";
+  margin-top: -20px;
+  text-align: center;
 }
 
 header p {
   font-size: 0.9em;
-  color: #7f8c8d; /* Серый цвет подзаголовка */
+  color: #7f8c8d;
   margin-bottom: 15px;
   opacity: 0;
   transform: translateY(20px);
-  animation: slideInUpText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление подзаголовка */
+  animation: slideInUpText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   animation-delay: 0.7s;
 }
 
-/* Ссылки */
+/* Links section */
 .links-container {
   display: flex;
   flex-direction: column;
@@ -81,10 +72,10 @@ header p {
   margin-bottom: 30px;
 }
 
-/* Кнопки */
+/* Button styles for links */
 .link-button {
-  background-color: #6e7d5a; /* Дорогой оливковый */
-  color: #fff; /* Белый текст */
+  background-color: #6e7d5a;
+  color: #fff;
   padding: 15px 25px;
   text-decoration: none;
   border-radius: 8px;
@@ -92,16 +83,16 @@ header p {
   font-size: 1em;
   font-weight: 500;
   transition: background-color 0.3s ease, transform 0.2s ease-out,
-    box-shadow 0.2s ease-out; /* Плавные переходы */
+    box-shadow 0.2s ease-out;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  display: block; /* Занимает всю ширину */
+  display: block;
   opacity: 0;
   transform: translateY(20px);
   animation: buttonFadeIn 0.8s ease-out forwards;
 }
 
 .link-button:hover {
-  background-color: #5a6a4a; /* Более тёмный дорогой оливковый при наведении */
+  background-color: #5a6a4a;
 }
 
 .link-button:nth-child(1) {
@@ -121,22 +112,22 @@ header p {
 }
 
 .link-button:hover {
-  background-color: #4b5320; /* Ещё более тёмный оливковый при наведении */
+  background-color: #4b5320;
   transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2); /* Усиление тени при наведении */
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
 }
 
 .link-button span {
   display: block;
   font-size: 0.8em;
-  color: #bdc3c7; /* Светло-серый цвет под текстом */
+  color: #bdc3c7;
   margin-top: 5px;
   opacity: 0;
   transform: translateY(10px);
-  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.2s; /* Плавное появление подписи */
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.2s;
 }
 
-/* Контактная информация */
+/* Contact info card */
 .contact-info {
   margin-top: 20px;
   padding: 20px;
@@ -145,20 +136,20 @@ header p {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(30px);
-  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление снизу */
+  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   animation-delay: 1.7s;
 }
 
 .contact-info h2 {
   font-size: 1.5em;
-  color: #4a5a3f; /* Дорогой оливковый */
+  color: #4a5a3f;
   margin-bottom: 15px;
   font-weight: 600;
   border-bottom: 2px solid #bdc3c7;
   padding-bottom: 5px;
   opacity: 0;
   transform: translateX(-20px);
-  animation: slideInLeftText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление заголовка */
+  animation: slideInLeftText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   animation-delay: 1.9s;
 }
 
@@ -168,7 +159,7 @@ header p {
   margin-bottom: 10px;
   opacity: 0;
   transform: translateX(20px);
-  animation: slideInRightText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление параграфа */
+  animation: slideInRightText 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   animation-delay: 2.1s;
 }
 
@@ -177,25 +168,25 @@ header p {
   font-weight: 600;
 }
 
-/* Футер */
+/* Footer styles */
 footer {
   text-align: center;
   margin-top: 30px;
   padding: 20px;
-  background-color: #d6d1c4; /* Дорогой светло-бежевый */
+  background-color: #d6d1c4;
   border-radius: 8px;
-  color: #3e4c3a; /* Дорогой оливковый */
+  color: #3e4c3a;
   font-size: 0.85em;
   opacity: 0;
   transform: translateY(30px);
-  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Плавное появление снизу */
+  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   animation-delay: 2.3s;
 }
 
-/* Меню */
+/* Menu link styles */
 .menu-item {
-  background-color: #99f0e0; /* Нежно-ментоловый */
-  color: #fff; /* Белый текст */
+  background-color: #99f0e0;
+  color: #fff;
   padding: 10px 15px;
   border-radius: 5px;
   text-decoration: none;
@@ -203,13 +194,13 @@ footer {
 }
 
 .menu-item:hover {
-  background-color: #77cfc0; /* Более тёмный ментоловый при наведении */
+  background-color: #77cfc0;
 }
 
-/* Меню в центре страницы */
+/* Centered menu card */
 .menu {
-  background-color: #99f0e0; /* Нежно-ментоловый */
-  color: #fff; /* Белый текст */
+  background-color: #99f0e0;
+  color: #fff;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -218,17 +209,17 @@ footer {
 }
 
 .menu:hover {
-  background-color: #77cfc0; /* Более тёмный ментоловый при наведении */
+  background-color: #77cfc0;
 }
 
-/* Логотип */
+/* Logo container */
 .logo-container {
-  width: 100px; /* Уменьшил размер контейнера с логотипом */
+  width: 100px;
   height: 100px;
-  margin: 0 auto 10px; /* Центрирование и отступ снизу */
+  margin: 0 auto 10px;
 }
 
-/* Анимации */
+/* Animation keyframes and utility classes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -370,7 +361,7 @@ footer {
   }
 }
 
-/* Анимации для информации на страницах */
+/* Section fade-in animation for content blocks */
 .section {
   opacity: 0;
   transform: translateY(20px);
@@ -400,7 +391,7 @@ footer {
   }
 }
 
-/* Адаптивность */
+/* Responsive adjustments for mobile screens */
 @media (max-width: 600px) {
   .container {
     margin: 20px auto;
@@ -408,43 +399,34 @@ footer {
   }
 }
 
-/* Дополнительные анимации для адаптивности (если нужно) */
-/* Например, можно немного изменить задержки или скорости анимаций */
 @media (max-width: 400px) {
   .link-button:nth-child(1) {
     animation-delay: 0.8s;
   }
-
   .link-button:nth-child(2) {
     animation-delay: 1s;
   }
-
   .link-button:nth-child(3) {
     animation-delay: 1.2s;
   }
-
   .link-button:nth-child(4) {
     animation-delay: 1.4s;
   }
-
   .contact-info {
     animation-delay: 1.6s;
   }
-
   .contact-info h2 {
     animation-delay: 1.8s;
   }
-
   .contact-info p {
     animation-delay: 2s;
   }
-
   footer {
     animation-delay: 2.2s;
   }
 }
 
-/* Стили для иконок социальных сетей */
+/* Social icons styles */
 .social-icons {
   margin-top: 10px;
   display: flex;
@@ -453,16 +435,16 @@ footer {
 }
 
 .social-icons a {
-  color: #3e4c3a; /* Дорогой оливковый */
+  color: #3e4c3a;
   font-size: 1.2em;
   transition: color 0.3s ease;
 }
 
 .social-icons a:hover {
-  color: #6e7d5a; /* Более светлый оливковый при наведении */
+  color: #6e7d5a;
 }
 
-/* Image Gallery Styles */
+/* Image gallery styles */
 .image-gallery {
   width: 100%;
   max-width: 600px;
@@ -507,19 +489,17 @@ footer {
   background-color: #5a6a4a;
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
   .image-gallery {
     max-width: 100%;
   }
-
   .control-button {
     padding: 8px 16px;
     margin: 0 3px;
   }
 }
 
-/* Masonry Gallery Styles */
+/* Masonry gallery styles */
 .masonry-gallery {
   column-count: 2;
   column-gap: 16px;
@@ -614,7 +594,7 @@ footer {
   }
 }
 
-/* Pulsing Olive Text */
+/* Animated olive color text for contact links */
 .contact-link {
   font-weight: bold;
   color: #6e7d5a;
@@ -658,7 +638,7 @@ footer {
   text-shadow: 0 0 8px #b8b29a, 0 0 16px #b8b29a, 0 0 24px #d6d1c4;
 }
 
-/* Minimalist Single Image Gallery */
+/* Minimalist single image gallery styles */
 .single-gallery {
   display: flex;
   align-items: center;
@@ -688,6 +668,7 @@ footer {
   box-shadow: 0 2px 8px rgba(110, 125, 90, 0.1);
 }
 
+/* Gallery arrow button styles */
 .gallery-arrow {
   background: none;
   color: #6e7d5a;
