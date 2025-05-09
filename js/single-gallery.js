@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const galleryImages = [
-    "/img/MyCollages.jpg",
-    "/img/MyCollages (2).jpg",
-    "/img/Blank 2 Grids Collage (1).png",
-    "/img/photo_2025-05-06_15-59-11.jpg",
-    "/img/photo_2025-05-06_15-59-31.jpg",
+    "img/MyCollages.jpg",
+    "img/MyCollages (2).jpg",
+    "img/Blank 2 Grids Collage (1).png",
+    "img/photo_2025-05-06_15-59-11.jpg",
+    "img/photo_2025-05-06_15-59-31.jpg",
   ];
 
   let currentIndex = 0;
@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateGallery() {
     if (currentIndex >= 0 && currentIndex < galleryImages.length) {
       imgEl.style.opacity = "0";
+      // Remove previous onload to avoid stacking handlers
+      imgEl.onload = null;
       imgEl.src = galleryImages[currentIndex];
       imgEl.alt = `Work example ${currentIndex + 1}`;
       indicator.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
@@ -67,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Event handler for swipe and drag navigation
-  const handleSwipe = (e) => {
+  function handleSwipe(e) {
     if (!imgEl || swipeHandled) return;
 
     if (e.type === "pointerdown" || e.type === "touchstart") {
@@ -76,7 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
       currentTranslate = 0;
       swipeHandled = false;
       imgEl.style.transition = "none";
-      imgEl.setPointerCapture?.(e.pointerId); // Support pointer capture for pointer events
+      if (e.type === "pointerdown" && imgEl.setPointerCapture) {
+        imgEl.setPointerCapture(e.pointerId);
+      }
     } else if (
       dragging &&
       (e.type === "pointermove" || e.type === "touchmove")
@@ -88,7 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (dragging && (e.type === "pointerup" || e.type === "touchend")) {
       dragging = false;
       swipeHandled = true;
-      imgEl.releasePointerCapture?.(e.pointerId);
+      if (e.type === "pointerup" && imgEl.releasePointerCapture) {
+        imgEl.releasePointerCapture(e.pointerId);
+      }
       imgEl.style.transition = "transform 0.3s ease";
 
       if (currentTranslate > 60 && currentIndex > 0) {
@@ -121,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       resetTranslate();
       swipeHandled = false;
     }
-  };
+  }
 
   // Attach event listeners
   ["pointerdown", "pointermove", "pointerup", "pointercancel"].forEach(
