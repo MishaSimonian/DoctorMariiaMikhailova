@@ -678,7 +678,10 @@ footer {
   box-shadow: 0 4px 16px rgba(110, 125, 90, 0.08);
   background: #fff;
   object-fit: contain;
-  transition: box-shadow 0.3s, transform 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s, opacity 0.4s;
+  opacity: 1;
+  will-change: transform;
+  /* Добавлено для плавного свайпа */
 }
 
 .single-gallery-img:active {

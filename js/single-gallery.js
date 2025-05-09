@@ -40,6 +40,26 @@ let startX = null;
 let isPointerDown = false;
 let pointerStartX = null;
 
+let currentTranslate = 0;
+let dragging = false;
+let animationFrameId = null;
+
+function setTranslate(x) {
+  imgEl.style.transform = `translateX(${x}px)`;
+}
+
+function resetTranslate(withTransition = true) {
+  if (withTransition) {
+    imgEl.style.transition = "transform 0.3s";
+  } else {
+    imgEl.style.transition = "none";
+  }
+  imgEl.style.transform = "translateX(0)";
+  setTimeout(() => {
+    imgEl.style.transition = "";
+  }, 300);
+}
+
 // Touch events (mobile)
 imgEl.addEventListener(
   "touchstart",
@@ -73,6 +93,62 @@ imgEl.addEventListener("touchend", (e) => {
   startX = null;
 });
 
+imgEl.addEventListener("touchstart", (e) => {
+  if (e.touches.length !== 1) return;
+  dragging = true;
+  startX = e.touches[0].clientX;
+  currentTranslate = 0;
+  imgEl.style.transition = "none";
+});
+
+imgEl.addEventListener(
+  "touchmove",
+  (e) => {
+    if (!dragging || startX === null) return;
+    const moveX = e.touches[0].clientX;
+    currentTranslate = moveX - startX;
+    setTranslate(currentTranslate);
+    e.preventDefault();
+  },
+  { passive: false }
+);
+
+imgEl.addEventListener("touchend", (e) => {
+  if (!dragging || startX === null) return;
+  dragging = false;
+  imgEl.style.transition = "transform 0.3s";
+  if (currentTranslate > 60 && currentIndex > 0) {
+    imgEl.style.transform = "translateX(100vw)";
+    setTimeout(() => {
+      currentIndex--;
+      updateGallery();
+      imgEl.style.transform = "translateX(-100vw)";
+      setTimeout(() => {
+        imgEl.style.transition = "transform 0.3s";
+        imgEl.style.transform = "translateX(0)";
+      }, 20);
+    }, 300);
+  } else if (
+    currentTranslate < -60 &&
+    currentIndex < galleryImages.length - 1
+  ) {
+    imgEl.style.transform = "translateX(-100vw)";
+    setTimeout(() => {
+      currentIndex++;
+      updateGallery();
+      imgEl.style.transform = "translateX(100vw)";
+      setTimeout(() => {
+        imgEl.style.transition = "transform 0.3s";
+        imgEl.style.transform = "translateX(0)";
+      }, 20);
+    }, 300);
+  } else {
+    resetTranslate();
+  }
+  startX = null;
+  currentTranslate = 0;
+});
+
 // Pointer events (for touchscreens and hybrid devices)
 imgEl.addEventListener("pointerdown", (e) => {
   if (e.pointerType === "touch") {
@@ -89,6 +165,61 @@ imgEl.addEventListener("pointerup", (e) => {
   }
   isPointerDown = false;
   pointerStartX = null;
+});
+
+imgEl.addEventListener("pointerdown", (e) => {
+  if (e.pointerType !== "touch") return;
+  dragging = true;
+  startX = e.clientX;
+  currentTranslate = 0;
+  imgEl.style.transition = "none";
+});
+
+imgEl.addEventListener("pointermove", (e) => {
+  if (!dragging || startX === null || e.pointerType !== "touch") return;
+  currentTranslate = e.clientX - startX;
+  setTranslate(currentTranslate);
+});
+
+imgEl.addEventListener("pointerup", (e) => {
+  if (!dragging || startX === null || e.pointerType !== "touch") return;
+  dragging = false;
+  imgEl.style.transition = "transform 0.3s";
+  if (currentTranslate > 60 && currentIndex > 0) {
+    imgEl.style.transform = "translateX(100vw)";
+    setTimeout(() => {
+      currentIndex--;
+      updateGallery();
+      imgEl.style.transform = "translateX(-100vw)";
+      setTimeout(() => {
+        imgEl.style.transition = "transform 0.3s";
+        imgEl.style.transform = "translateX(0)";
+      }, 20);
+    }, 300);
+  } else if (
+    currentTranslate < -60 &&
+    currentIndex < galleryImages.length - 1
+  ) {
+    imgEl.style.transform = "translateX(-100vw)";
+    setTimeout(() => {
+      currentIndex++;
+      updateGallery();
+      imgEl.style.transform = "translateX(100vw)";
+      setTimeout(() => {
+        imgEl.style.transition = "transform 0.3s";
+        imgEl.style.transform = "translateX(0)";
+      }, 20);
+    }, 300);
+  } else {
+    resetTranslate();
+  }
+  startX = null;
+  currentTranslate = 0;
+});
+
+imgEl.addEventListener("pointercancel", () => {
+  dragging = false;
+  resetTranslate();
 });
 
 updateGallery();
