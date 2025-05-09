@@ -30,16 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function updateGallery() {
     if (currentIndex >= 0 && currentIndex < galleryImages.length) {
+      imgEl.style.transition = "opacity 0.4s ease";
       imgEl.style.opacity = "0";
       // Remove previous onload to avoid stacking handlers
       imgEl.onload = null;
+      // Force reflow to restart opacity transition every time
+      void imgEl.offsetWidth;
       imgEl.src = galleryImages[currentIndex];
       imgEl.alt = `Work example ${currentIndex + 1}`;
       indicator.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
       leftBtn.disabled = currentIndex === 0;
       rightBtn.disabled = currentIndex === galleryImages.length - 1;
-      // Fade in after image loads
       imgEl.onload = () => {
+        // Force reflow again to ensure transition triggers
+        void imgEl.offsetWidth;
         imgEl.style.transition = "opacity 0.4s ease";
         imgEl.style.opacity = "1";
       };
