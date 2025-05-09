@@ -86,29 +86,34 @@ imgEl.addEventListener("touchend", (e) => {
   dragging = false;
   imgEl.style.transition = "transform 0.3s";
   if (currentTranslate > 60 && currentIndex > 0) {
+    // свайп вправо, новое фото появляется слева
     imgEl.style.transform = "translateX(100vw)";
     setTimeout(() => {
       currentIndex--;
       updateGallery();
+      imgEl.style.transition = "none";
       imgEl.style.transform = "translateX(-100vw)";
-      setTimeout(() => {
+      // заставляем браузер применить transform перед анимацией
+      requestAnimationFrame(() => {
         imgEl.style.transition = "transform 0.3s";
         imgEl.style.transform = "translateX(0)";
-      }, 20);
+      });
     }, 300);
   } else if (
     currentTranslate < -60 &&
     currentIndex < galleryImages.length - 1
   ) {
+    // свайп влево, новое фото появляется справа
     imgEl.style.transform = "translateX(-100vw)";
     setTimeout(() => {
       currentIndex++;
       updateGallery();
+      imgEl.style.transition = "none";
       imgEl.style.transform = "translateX(100vw)";
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         imgEl.style.transition = "transform 0.3s";
         imgEl.style.transform = "translateX(0)";
-      }, 20);
+      });
     }, 300);
   } else {
     resetTranslate();
@@ -141,11 +146,12 @@ imgEl.addEventListener("pointerup", (e) => {
     setTimeout(() => {
       currentIndex--;
       updateGallery();
+      imgEl.style.transition = "none";
       imgEl.style.transform = "translateX(-100vw)";
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         imgEl.style.transition = "transform 0.3s";
         imgEl.style.transform = "translateX(0)";
-      }, 20);
+      });
     }, 300);
   } else if (
     currentTranslate < -60 &&
@@ -155,11 +161,12 @@ imgEl.addEventListener("pointerup", (e) => {
     setTimeout(() => {
       currentIndex++;
       updateGallery();
+      imgEl.style.transition = "none";
       imgEl.style.transform = "translateX(100vw)";
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         imgEl.style.transition = "transform 0.3s";
         imgEl.style.transform = "translateX(0)";
-      }, 20);
+      });
     }, 300);
   } else {
     resetTranslate();
