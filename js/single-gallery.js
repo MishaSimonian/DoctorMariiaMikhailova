@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const rightBtn = document.querySelector(".gallery-arrow-right");
   const indicator = document.getElementById("single-gallery-indicator");
 
-  // Check if all required elements exist
   if (!imgEl || !leftBtn || !rightBtn || !indicator) {
     console.warn("Not all gallery elements found!");
     return;
@@ -24,44 +23,32 @@ document.addEventListener("DOMContentLoaded", () => {
   let dragging = false;
   let swipeHandled = false;
 
-  /**
-   * Updates the gallery image, alt text, indicator, and arrow button states.
-   * Adds fade-in effect after image change.
-   */
+  // Update gallery image, alt, indicator, and always fade-in (even if cached)
   function updateGallery() {
-    if (currentIndex >= 0 && currentIndex < galleryImages.length) {
+    imgEl.style.transition = "none";
+    imgEl.style.opacity = "0";
+    void imgEl.offsetWidth;
+    imgEl.src = galleryImages[currentIndex];
+    imgEl.alt = `Work example ${currentIndex + 1}`;
+    indicator.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+    leftBtn.disabled = currentIndex === 0;
+    rightBtn.disabled = currentIndex === galleryImages.length - 1;
+
+    const fadeIn = () => {
       imgEl.style.transition = "opacity 0.4s ease";
-      imgEl.style.opacity = "0";
-      // Remove previous onload to avoid stacking handlers
-      imgEl.onload = null;
-      // Force reflow to restart opacity transition every time
-      void imgEl.offsetWidth;
-      imgEl.src = galleryImages[currentIndex];
-      imgEl.alt = `Work example ${currentIndex + 1}`;
-      indicator.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
-      leftBtn.disabled = currentIndex === 0;
-      rightBtn.disabled = currentIndex === galleryImages.length - 1;
-      imgEl.onload = () => {
-        // Force reflow again to ensure transition triggers
-        void imgEl.offsetWidth;
-        imgEl.style.transition = "opacity 0.4s ease";
-        imgEl.style.opacity = "1";
-      };
-    }
+      imgEl.style.opacity = "1";
+      imgEl.removeEventListener("load", fadeIn);
+    };
+    imgEl.addEventListener("load", fadeIn);
+    setTimeout(() => {
+      if (imgEl.style.opacity !== "1") fadeIn();
+    }, 30);
   }
 
-  /**
-   * Sets the horizontal translation of the image element.
-   * @param {number} x - Translation value in pixels.
-   */
   function setTranslate(x) {
     imgEl.style.transform = `translateX(${x}px)`;
   }
 
-  /**
-   * Resets the image translation to center with an optional transition.
-   * @param {boolean} withTransition - Enable transition animation.
-   */
   function resetTranslate(withTransition = true) {
     imgEl.style.transition = withTransition ? "transform 0.3s ease" : "none";
     setTranslate(0);
@@ -72,10 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Event handler for swipe and drag navigation
   function handleSwipe(e) {
     if (!imgEl || swipeHandled) return;
-
     if (e.type === "pointerdown" || e.type === "touchstart") {
       dragging = true;
       startX = (e.touches ? e.touches[0] : e).clientX;
@@ -92,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const moveX = (e.touches ? e.touches[0] : e).clientX;
       currentTranslate = moveX - startX;
       setTranslate(currentTranslate);
-      if (e.cancelable) e.preventDefault(); // Prevent scrolling during swipe
+      if (e.cancelable) e.preventDefault();
     } else if (dragging && (e.type === "pointerup" || e.type === "touchend")) {
       dragging = false;
       swipeHandled = true;
@@ -100,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
         imgEl.releasePointerCapture(e.pointerId);
       }
       imgEl.style.transition = "transform 0.3s ease";
-
       if (currentTranslate > 60 && currentIndex > 0) {
         imgEl.style.transform = "translateX(100vw)";
         setTimeout(() => {
@@ -133,17 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Attach event listeners
   ["pointerdown", "pointermove", "pointerup", "pointercancel"].forEach(
-    (event) => {
-      imgEl.addEventListener(event, handleSwipe);
-    }
+    (event) => imgEl.addEventListener(event, handleSwipe)
   );
   ["touchstart", "touchmove", "touchend", "touchcancel"].forEach((event) => {
     imgEl.addEventListener(event, handleSwipe, { passive: false });
   });
 
-  // Navigation button event listeners
   leftBtn.addEventListener("click", () => {
     if (currentIndex > 0) {
       currentIndex--;
@@ -158,6 +138,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initialize gallery
   updateGallery();
 });
